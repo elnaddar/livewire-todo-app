@@ -4,6 +4,6 @@
     @endforeach
 
     <div class="my-2">
-        <!-- Pagination goes here -->
+        {{ $todos->links() }}
     </div>
 </div>
