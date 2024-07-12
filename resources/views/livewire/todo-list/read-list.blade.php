@@ -3,7 +3,11 @@
         @include('livewire.todo-list.todo-card')
     @empty
         <div class="text-xs text-center text-gray-500">
-            No todos till now try to add some.
+            @if ($search == '')
+                No todos till now try to add some.
+            @else
+                No todos for "{{ $search }}" till now try to add some.
+            @endif
         </div>
     @endforelse
     <div class="my-2">
