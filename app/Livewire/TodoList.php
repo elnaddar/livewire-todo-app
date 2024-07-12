@@ -14,6 +14,7 @@ class TodoList extends Component
 
     #[Validate("required|min:5|max:250")]
     public $name = '';
+    public $search = '';
     public function create(){
         $this -> validate();
         Todo::create([
@@ -24,7 +25,8 @@ class TodoList extends Component
     }
     public function render()
     {
-        $todos = Todo::latest()->paginate(5);
+        // "%{$this->search}%" called wildcard srarch like in sql.
+        $todos = Todo::latest()->where('name', 'like', "%{$this->search}%")->paginate(5);
         return view('livewire.todo-list', [
             'todos'=> $todos
         ]);
