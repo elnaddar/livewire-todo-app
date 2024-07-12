@@ -15,6 +15,11 @@ class TodoList extends Component
     #[Validate("required|min:5|max:250")]
     public $name = '';
     public $search = '';
+
+    public function delete(Todo $todo){
+        $todo -> delete();
+    }
+
     public function create(){
         $this -> validate();
         Todo::create([
