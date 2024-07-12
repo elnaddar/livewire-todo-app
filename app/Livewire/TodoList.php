@@ -21,7 +21,7 @@ class TodoList extends Component
     }
     public function render()
     {
-        $todos = Todo::all();
+        $todos = Todo::latest()->get();
         return view('livewire.todo-list', [
             'todos'=> $todos
         ]);
