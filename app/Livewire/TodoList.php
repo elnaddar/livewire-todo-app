@@ -37,7 +37,7 @@ class TodoList extends Component
 
     public function create()
     {
-        $this->validate();
+        $this->validateOnly('name');
         Todo::create([
             'name' => $this->name,
         ]);
@@ -51,6 +51,16 @@ class TodoList extends Component
             "completed" => !$todo->completed
         ]);
     }
+
+    public function update(Todo $todo)
+    {
+        $this->validateOnly('editNewName');
+        $todo->update([
+            "name" => $this->editNewName
+        ]);
+        $this->editTodoId = '';
+    }
+
     public function render()
     {
         // "%{$this->search}%" called wildcard srarch like in sql.
