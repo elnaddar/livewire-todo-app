@@ -19,19 +19,32 @@ class TodoList extends Component
     #[Validate("required|min:5|max:250")]
     public $editNewName = '';
 
-    public function delete(Todo $todo)
+    public function delete($todoID)
     {
-        $todo->delete();
+        try {
+            $todo = Todo::findOrFail($todoID);
+            $todo->delete();
+        } catch (\Exception $e) {
+            session()->flash("error", "Can't find the todo item.");
+            return;
+        }
+
     }
 
-    public function toggleEdit(Todo $todo)
+    public function toggleEdit($todoID)
     {
-        if ($this->editTodoId != $todo->id) {
-            $this->editTodoId = $todo->id;
-            $this->editNewName = $todo->name;
-        } else {
-            $this->editTodoId = '';
-            $this->editNewName = '';
+        try {
+            $todo = Todo::findOrFail($todoID);
+            if ($this->editTodoId != $todo->id) {
+                $this->editTodoId = $todo->id;
+                $this->editNewName = $todo->name;
+            } else {
+                $this->editTodoId = '';
+                $this->editNewName = '';
+            }
+        } catch (\Exception $e) {
+            session()->flash("error", "Can't find the todo item.");
+            return;
         }
     }
 
@@ -45,20 +58,32 @@ class TodoList extends Component
         session()->flash("success", "New item added successfully");
     }
 
-    public function toggle(Todo $todo)
+    public function toggle($todoID)
     {
-        $todo->update([
-            "completed" => !$todo->completed
-        ]);
+        try {
+            $todo = Todo::findOrFail($todoID);
+            $todo->update([
+                "completed" => !$todo->completed
+            ]);
+        } catch (\Exception $e) {
+            session()->flash("error", "Can't find the todo item.");
+            return;
+        }
     }
 
-    public function update(Todo $todo)
+    public function update($todoID)
     {
-        $this->validateOnly('editNewName');
-        $todo->update([
-            "name" => $this->editNewName
-        ]);
-        $this->editTodoId = '';
+        try {
+            $todo = Todo::findOrFail($todoID);
+            $this->validateOnly('editNewName');
+            $todo->update([
+                "name" => $this->editNewName
+            ]);
+            $this->editTodoId = '';
+        } catch (\Exception $e) {
+            session()->flash("error", "Can't find the todo item.");
+            return;
+        }
     }
 
     public function render()
