@@ -19,27 +19,36 @@ class TodoList extends Component
     #[Validate("required|min:5|max:250")]
     public $editNewName = '';
 
-    public function delete(Todo $todo){
-        $todo -> delete();
+    public function delete(Todo $todo)
+    {
+        $todo->delete();
     }
 
-    public function toggleEdit(Todo $todo){
-        $this -> editTodoId = $todo -> id;
-        $this -> editNewName = $todo -> name;
+    public function toggleEdit(Todo $todo)
+    {
+        if ($this->editTodoId != $todo->id) {
+            $this->editTodoId = $todo->id;
+            $this->editNewName = $todo->name;
+        } else {
+            $this->editTodoId = '';
+            $this->editNewName = '';
+        }
     }
 
-    public function create(){
-        $this -> validate();
+    public function create()
+    {
+        $this->validate();
         Todo::create([
-            'name'=> $this -> name,
+            'name' => $this->name,
         ]);
-        $this -> reset();
-        session() -> flash("success", "New item added successfully");
+        $this->reset();
+        session()->flash("success", "New item added successfully");
     }
 
-    public function toggle(Todo $todo){
-        $todo -> update([
-            "completed" => !$todo  -> completed
+    public function toggle(Todo $todo)
+    {
+        $todo->update([
+            "completed" => !$todo->completed
         ]);
     }
     public function render()
@@ -47,7 +56,7 @@ class TodoList extends Component
         // "%{$this->search}%" called wildcard srarch like in sql.
         $todos = Todo::latest()->where('name', 'like', "%{$this->search}%")->paginate(5);
         return view('livewire.todo-list', [
-            'todos'=> $todos
+            'todos' => $todos
         ]);
     }
 }
