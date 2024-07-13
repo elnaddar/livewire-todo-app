@@ -15,9 +15,17 @@ class TodoList extends Component
     #[Validate("required|min:5|max:250")]
     public $name = '';
     public $search = '';
+    public $editTodoId = '';
+    #[Validate("required|min:5|max:250")]
+    public $editNewName = '';
 
     public function delete(Todo $todo){
         $todo -> delete();
+    }
+
+    public function toggleEdit(Todo $todo){
+        $this -> editTodoId = $todo -> id;
+        $this -> editNewName = $todo -> name;
     }
 
     public function create(){
