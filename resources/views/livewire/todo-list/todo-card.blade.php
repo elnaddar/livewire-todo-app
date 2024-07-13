@@ -1,15 +1,17 @@
 <div wire:key='{{ $todo->id }}'
     class="col-span-1 px-5 py-6 mb-5 bg-white border-t-2 border-blue-500 todo card hover:shadow">
     <div class="flex justify-between space-x-2">
-
-        <!-- <input type="text" placeholder="Todo.."
+        <div class="flex item-center">
+            <!-- <input type="text" placeholder="Todo.."
                     class="bg-gray-100  text-gray-900 text-sm rounded block w-full p-2.5"
                     value="Todo Name">
 
                     <span class="block text-xs text-red-500">error</span> -->
-
-        <h3 class="text-lg text-gray-800 text-semibold">{{ $todo->name }}</h3>
-
+            <input wire:click='toggle({{ $todo->id }})' class="mr-2" id="item-{{ $todo->id }}" type="checkbox"
+                {{ $todo->completed ? 'checked' : '' }}>
+            <label for="item-{{ $todo->id }}"
+                class="text-lg text-gray-800 text-semibold">{{ $todo->name }}</label>
+        </div>
 
 
         <div class="flex items-center space-x-2">

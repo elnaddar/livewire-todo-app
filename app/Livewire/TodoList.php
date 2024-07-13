@@ -28,6 +28,12 @@ class TodoList extends Component
         $this -> reset();
         session() -> flash("success", "New item added successfully");
     }
+
+    public function toggle(Todo $todo){
+        $todo -> update([
+            "completed" => !$todo  -> completed
+        ]);
+    }
     public function render()
     {
         // "%{$this->search}%" called wildcard srarch like in sql.
